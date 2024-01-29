@@ -6,7 +6,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const {Users, Courses, Chapters} = require('./models/');
 
-let id = 1;
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'views')));
@@ -130,14 +129,15 @@ app.get('/viewCourse', async (req, res) => {
         name: courseName,
       },
     });
+    console.log(course);
 
     if (!course) {
       return res.status(404).send('Course not found');
     }
 
     res.render('viewcourse', {
-      course: course.name,
-      chapters: course.chapters,
+      course: course.dataValues.name,
+      chapters: course.dataValues.chapters,
     });
   } catch (error) {
     console.error('Error fetching course and chapters:', error);
@@ -184,17 +184,17 @@ app.post('/designChapter', async (req, res) => {
         pages: [],
         name: tutor ? tutor.name : 'Unknown',
         email: tutoremail,
-        courseId: id,
+        courseId: course.id,
       });
-      id = id + 1;
       console.log('New chapter created:', newChapter.toJSON());
 
-      res.redirect(`/viewCourse?courseName=${courseName}`);
+      req.session.courseId = newChapter.courseId;
+      req.session.title = newChapter.title;
+      res.redirect('/designPage');
     } else {
       res.status(404).send('Course not found');
     }
   } catch (error) {
-    // Handle errors
     console.error('Error updating course description:', error);
     res.status(500).send('Internal Server Error');
   }
@@ -250,6 +250,45 @@ app.post('/signout', (req, res) => {
       res.redirect('/login');
     }
   });
+});
+
+app.get('/designPage', async (req, res) =>{
+  console.log(req.session);
+  try {
+    const courseId = req.session.courseId;
+    const title = req.session.title;
+
+    res.render('designPage', {courseId: courseId, title: title});
+  } catch (error) {
+    console.error('Error rendering designPage:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/designPage', (req, res) => {
+  const chapter = req.body.chapter;
+  const courseId = req.session.courseId;
+  const editorContent = req.body.editorContent;
+
+  console.log('Chapter:', chapter);
+  console.log('Editor Content:', editorContent);
+
+  res.redirect(`/viewChapter/${courseId}`);
+});
+
+app.get('/viewChapter', async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+
+    const chapters = await Chapters.findAll({
+      where: {courseId: courseId},
+    });
+
+    res.render('chapters', {chapters: chapters});
+  } catch (error) {
+    console.error('Error fetching chapters:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 module.exports = app;
