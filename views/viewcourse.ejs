@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Course Chapters</title>
+</head>
+<body>
+    <h1>Course Title: <%= course.name %></h1>
+    <h2>Chapters:</h2>
+    <ul id="chapterList"></ul>
+
+    <script>
+        const chapters = <%= JSON.stringify(chapters) %>;
+
+        function renderChapters() {
+            const chapterList = document.getElementById('chapterList');
+            chapters.forEach(chapter => {
+                const listItem = document.createElement('li');
+                listItem.textContent = chapter.title;
+                chapterList.appendChild(listItem);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderChapters);
+    </script>
+</body>
+</html>

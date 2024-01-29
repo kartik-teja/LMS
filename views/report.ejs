@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration Report</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8 px-4">
+        <h1 class="text-3xl text-gray-900 font-semibold mb-4">Course Registration Report</h1>
+        <!-- Table to display the data -->
+        <table class="table-auto">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Course Name</th>
+                    <th class="px-4 py-2">Registered Users Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through courseNames and registeredUsersCounts arrays to populate the table -->
+                <% for (let i = 0; i < courseNames.length; i++) { %>
+                    <tr>
+                        <td class="border px-4 py-2"><%= courseNames[i] %></td>
+                        <td class="border px-4 py-2"><%= registeredUsersCounts[i] %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
