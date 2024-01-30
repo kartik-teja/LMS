@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Chapter Pages</title>
+</head>
+
+<body>
+    <h1>Chapter Title: <%= chapter.name %>
+    </h1>
+    <h2>Pages:</h2>
+    <ul id="pagesList"></ul>
+
+    <script>
+        const pages = <%= JSON.stringify(pages) %>;
+
+        function renderPages() {
+            const chapterList = document.getElementById('chapterList');
+            pages.forEach(chapter => {
+                const listItem = document.createElement('li');
+                listItem.textContent = chapter.title;
+                chapterList.appendChild(listItem);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderPages);
+    </script>
+    <div>
+        <form action="/designChapter" method="get">
+            <button>Add a chapter</button>
+        </form>
+    </div>
+</body>
+
+</html>

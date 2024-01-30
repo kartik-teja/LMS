@@ -136,8 +136,7 @@ app.get('/viewCourse', async (req, res) => {
     }
 
     res.render('viewcourse', {
-      course: course.dataValues.name,
-      chapters: course.dataValues.chapters,
+      course: course,
     });
   } catch (error) {
     console.error('Error fetching course and chapters:', error);
@@ -147,15 +146,15 @@ app.get('/viewCourse', async (req, res) => {
 
 app.get('/designChapter', (req, res) => {
   console.log(req.session);
-  const tutoremail = req.session.email;
-  const courseName = req.query.courseName;
-  res.render('designChapter', {tutoremail: tutoremail, title: courseName});
+  const courseName = req.query.name||req.body.name;
+  console.log(courseName);
+  res.render('designChapter', {title: courseName});
 });
 
 app.post('/designChapter', async (req, res) => {
   try {
     const tutoremail = req.session.email;
-    const courseName = req.body.name;
+    const courseName = req.body.name||req.query.name;
 
     console.log('Request Body:', req.body);
 

@@ -8,13 +8,15 @@
 </head>
 
 <body>
+
     <h1>Course Title: <%= course.name %>
     </h1>
     <h2>Chapters:</h2>
     <ul id="chapterList"></ul>
 
     <script>
-        const chapters = <%= JSON.stringify(chapters) %>;
+        console.log(course)
+        const chapters = <%= JSON.stringify(course.chapters) %>;
 
         function renderChapters() {
             const chapterList = document.getElementById('chapterList');
@@ -29,6 +31,7 @@
     </script>
     <div>
         <form action="/designChapter" method="get">
+            <input type="hidden" name="name" value="<%= course.name %>">
             <button>Add a page</button>
         </form>
     </div>
