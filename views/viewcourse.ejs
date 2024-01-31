@@ -13,28 +13,23 @@
     </h1>
     <h2>Chapters:</h2>
     <ul id="chapterList"></ul>
-
-    <script>
-        console.log(course)
-        const chapters = <%= JSON.stringify(course.chapters) %>;
-
-        function renderChapters() {
-            const chapterList = document.getElementById('chapterList');
-            chapters.forEach(chapter => {
-                const listItem = document.createElement('li');
-                listItem.textContent = chapter.title;
-                chapterList.appendChild(listItem);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', renderChapters);
-    </script>
-    <div>
-        <form action="/designChapter" method="get">
-            <input type="hidden" name="name" value="<%= course.name %>">
-            <button>Add a page</button>
-        </form>
-    </div>
+    <% if (chapters && chapters.length> 0) { %>
+        <% chapters.forEach(chapter=> { %>
+            <div onclick="window.location.href='/viewChapter?chapterName=<%= chapter %>&courseId=<%= courseId %>';">
+                <h2 class="text-xl text-gray-900 font-semibold mb-2">
+                    <%= chapter %>
+                </h2>
+            </div>
+            <% }); %>
+                <% } else { %>
+                    <p>No Chapters available</p>
+                    <% } %>
+                        <div>
+                            <form action="/designChapter" method="get">
+                                <input type="hidden" name="name" value="<%= course.name %>">
+                                <button>Add a Chapter</button>
+                            </form>
+                        </div>
 </body>
 
 </html>

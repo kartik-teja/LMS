@@ -8,28 +8,32 @@
 </head>
 
 <body>
-    <h1>Chapter Title: <%= chapter.name %>
+    <h1>Chapter Title: <%= name %>
     </h1>
     <h2>Pages:</h2>
     <ul id="pagesList"></ul>
 
     <script>
-        const pages = <%= JSON.stringify(pages) %>;
+        console.log(<%= JSON.stringify(page) %>);
+        const pages = <%= JSON.stringify(page) %>;
+        console.log(pages);
 
-        function renderPages() {
-            const chapterList = document.getElementById('chapterList');
-            pages.forEach(chapter => {
-                const listItem = document.createElement('li');
-                listItem.textContent = chapter.title;
-                chapterList.appendChild(listItem);
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageHeadingsElement = document.getElementById('pageHeadings');
+
+            pages.forEach(page => {
+                const headingElement = document.createElement('h2');
+                headingElement.textContent = page.head;
+                pageHeadingsElement.appendChild(headingElement);
             });
-        }
+        });
 
-        document.addEventListener('DOMContentLoaded', renderPages);
     </script>
     <div>
-        <form action="/designChapter" method="get">
-            <button>Add a chapter</button>
+        <form action="/designPage/" method="get">
+            <input type="hidden" name="title" value="<%=name%>">
+            <input type="hidden" name="courseId" value="<%=courseId%>">
+            <button>Add a Page</button>
         </form>
     </div>
 </body>
