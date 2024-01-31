@@ -5,7 +5,7 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const {Users, Courses, Chapters} = require('./models/');
-const {Console} = require('console');
+const users = require('./models/users');
 
 
 app.set('view engine', 'ejs');
@@ -24,6 +24,11 @@ app.use(
       saveUninitialized: true,
     }),
 );
+
+app.get('/login', (req, res)=>{
+  res.render('login');
+});
+
 app.post('/login', async (req, res) => {
   try {
     const user = await Users.findOne({
@@ -214,7 +219,7 @@ app.post('/designChapter', async (req, res) => {
       const updatedCourse = await course.update({
         chapters: [...course.chapters, req.body.chapterName],
       });
-      console.log('Course description updated:', course.toJSON());
+      console.log('Course description updated:', updatedCourse.toJSON());
 
       const tutor = await Users.findOne({
         where: {
@@ -329,7 +334,8 @@ app.post('/designPage', async (req, res) => {
     return res.status(404).send('Chapter not found');
   }
   const updatedChapter = await chapter.update({
-    pages: [...chapter.pages, {head: page, body: editorContent}],
+    pages: [...chapter.pages,
+      {head: page, body: editorContent, completed: false}],
   });
 
   console.log('Chapter updated:', updatedChapter.toJSON());
@@ -340,4 +346,54 @@ app.post('/designPage', async (req, res) => {
   res.redirect(`/viewChapter/?chapterName=${chapterName}&courseId=${courseId}`);
 });
 
+app.get('/viewPage', (req, res)=>{
+  console.log(req.query);
+  const pageHead = req.query.head;
+  const pageBody = req.query.body;
+  const pageCompleted = req.query.completed;
+  res.render('viewPage',
+      {head: pageHead, body: pageBody, completed: pageCompleted});
+});
+
+app.get('/viewCourseU', async (req, res)=>{
+  console.log(req.body);
+  console.log(req.session);
+  console.log(req.query);
+  const {courseName, courseId} = req.query;
+  const course = await Courses.findOne({where: {id: courseId}});
+
+  res.render('viewCourseU',
+      {courseName, courseId, course, chapters: course.chapters});
+});
+app.get('/viewChapterU', async (req, res)=>{
+  try {
+    const chapterName = req.query.chapterName;
+    const courseId = req.query.courseId;
+
+    console.log(chapterName, courseId);
+
+    const chapter = await Chapters.findOne({
+      where: {
+        title: chapterName,
+        courseId: courseId,
+      },
+    });
+
+    if (!chapter) {
+      return res.status(404).send('Chapter not found');
+    }
+    const pages = chapter.pages.map((pageString) => JSON.parse(pageString));
+
+    console.log(pages);
+
+    res.render('viewChapterU', {
+      name: chapter.title,
+      page: pages,
+      courseId: courseId,
+    });
+  } catch (error) {
+    console.error('Error fetching course and chapters:', error);
+    res.status(500).send('Internal Server Error: ' + error.message);
+  }
+});
 module.exports = app;
