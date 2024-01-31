@@ -308,7 +308,7 @@ app.get('/designPage', async (req, res) =>{
     console.log(req.query);
     const courseId = req.session.courseId||req.body.courseId||
     req.query.courseId;
-    const title = req.query.title||req.body.title;
+    const title = req.query.chapterName;
 
     res.render('designPage', {courseId: courseId, title: title});
   } catch (error) {
