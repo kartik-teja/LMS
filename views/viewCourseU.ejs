@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Course Chapters</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-white font-sans">
+
+    <div class="container mx-auto px-4 py-8">
+
+        <h1 class="text-2xl font-semibold mb-4">Course Title: <%= course.name %>
+        </h1>
+
+        <h2 class="text-lg font-semibold mb-2">Chapters:</h2>
+
+        <ul id="chapterList" class="space-y-4">
+            <% if (chapters && chapters.length> 0) { %>
+                <% chapters.forEach(chapter=> { %>
+                    <li class="cursor-pointer border-b border-gray-200 py-2 transition-colors hover:bg-gray-100"
+                        onclick="window.location.href='/viewChapterU?chapterName=<%= chapter %>&courseId=<%= courseId %>';">
+                        <h2 class="text-xl font-semibold text-gray-900">
+                            <%= chapter %>
+                        </h2>
+                    </li>
+                    <% }); %>
+                        <% } else { %>
+                            <p class="text-gray-500">No Chapters available</p>
+                            <% } %>
+        </ul>
+
+    </div>
+
+</body>
+
+</html>

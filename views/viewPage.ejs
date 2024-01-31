@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%=head%>
+
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <header class="bg-blue-500 py-4">
+        <div class="container mx-auto">
+            <h1 class="text-white text-3xl text-center">
+                <%=head%>
+            </h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto py-8">
+        <div class="prose">
+            <%=body.replace( /<[^>]*>/g, '')%>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

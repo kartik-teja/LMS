@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Next Move - Learning Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/looks/output.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <h1 class="text-3xl text-center mt-8 text-gray-900">Learning Management System</h1>
+
+    <div class="flex justify-center mt-8">
+        <div class="mr-4">
+            <h2 class="text-xl font-semibold mb-4">Tutor Login</h2>
+            <form action="/login" method="post" class="bg-white p-4 rounded shadow-md max-w-xs">
+
+                <label for="tutoremail" class="block text-sm font-medium text-gray-600">email:</label>
+                <input type="text" id="tutoremail" name="email" required
+                    class="w-full p-2 border rounded mb-2 focus:outline-none focus:ring focus:border-blue-300">
+
+                <label for="tutorPassword" class="block text-sm font-medium text-gray-600">Password:</label>
+                <input type="password" id="tutorPassword" name="password" required
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring focus:border-blue-300">
+
+                <input type="hidden" name="role" value="tutor">
+
+                <button type="submit"
+                    class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Login
+                </button>
+            </form>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-semibold mb-4">User Login</h2>
+            <form action="/login" method="post" class="bg-white p-4 rounded shadow-md max-w-xs">
+
+                <label for="useremail" class="block text-sm font-medium text-gray-600">email:</label>
+                <input type="text" id="useremail" name="email" required
+                    class="w-full p-2 border rounded mb-2 focus:outline-none focus:ring focus:border-blue-300">
+
+                <label for="userPassword" class="block text-sm font-medium text-gray-600">Password:</label>
+                <input type="password" id="userPassword" name="password" required
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring focus:border-blue-300">
+
+                <input type="hidden" name="role" value="user">
+
+                <button type="submit"
+                    class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 focus:outline-none focus:ring focus:border-blue-300">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <h2 class="text-center mt-8">New Here? <a href="signup" class="text-blue-500">SignUp</a></h2>
+</body>
+
+</html>

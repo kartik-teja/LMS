@@ -5,31 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Course Chapters</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-gray-100">
 
-    <h1>Course Title: <%= course.name %>
-    </h1>
-    <h2>Chapters:</h2>
-    <ul id="chapterList"></ul>
-    <% if (chapters && chapters.length> 0) { %>
-        <% chapters.forEach(chapter=> { %>
-            <div onclick="window.location.href='/viewChapter?chapterName=<%= chapter %>&courseId=<%= courseId %>';">
-                <h2 class="text-xl text-gray-900 font-semibold mb-2">
-                    <%= chapter %>
-                </h2>
-            </div>
-            <% }); %>
-                <% } else { %>
-                    <p>No Chapters available</p>
-                    <% } %>
-                        <div>
-                            <form action="/designChapter" method="get">
-                                <input type="hidden" name="name" value="<%= course.name %>">
-                                <button>Add a Chapter</button>
-                            </form>
+    <div class="container mx-auto py-8 px-4">
+
+        <h1 class="text-3xl font-semibold mb-4">Course Title: <%= course.name %>
+        </h1>
+        <h2 class="text-xl mb-4">Chapters:</h2>
+
+        <ul id="chapterList" class="space-y-4">
+            <% if (chapters && chapters.length> 0) { %>
+                <% chapters.forEach(chapter=> { %>
+                    <li class="border-b border-gray-200">
+                        <div class="flex items-center py-2">
+                            <h2 class="text-xl text-gray-900 font-semibold mb-2">
+                                <%= chapter %>
+                            </h2>
+                            <button
+                                onclick="window.location.href='/viewChapter?chapterName=<%= chapter %>&courseId=<%= courseId %>';"
+                                class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                                View Chapter
+                            </button>
                         </div>
+                    </li>
+                    <% }); %>
+                        <% } else { %>
+                            <li class="py-2">
+                                <p class="text-gray-700">No Chapters available</p>
+                            </li>
+                            <% } %>
+        </ul>
+
+        <div class="mt-4">
+            <form action="/designChapter" method="get">
+                <input type="hidden" name="name" value="<%= course.name %>">
+                <button type="submit"
+                    class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300">
+                    Add a Chapter
+                </button>
+            </form>
+        </div>
+
+    </div>
+
 </body>
 
 </html>

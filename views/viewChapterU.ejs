@@ -21,27 +21,18 @@
             <% page.forEach((p)=> { %>
                 <li>
                     <div class="flex items-center py-2 px-4 bg-white rounded-lg shadow-md hover:bg-purple-50">
-                        <form action="/viewPage" method="get">
+                        <form action="/viewPage" method="get" class="flex items-center">
                             <input type="hidden" id="head" name="head" value="<%= p.head %>">
                             <input type="hidden" id="body" name="body" value="<%= p.body %>">
-                            <button type="submit" class="text-blue-500 hover:text-blue-700">
+                            <button type="submit" class="text-blue-500 hover:text-blue-700 mr-2">
                                 <%= p.head %>
                             </button>
+                            <input type="checkbox" value="p.completed" class="form-checkbox">
                         </form>
                     </div>
                 </li>
                 <% }); %>
         </ul>
-
-        <div class="mt-8">
-            <form action="/designPage/" method="get">
-                <input type="hidden" name="title" value="<%= name %>">
-                <input type="hidden" name="courseId" value="<%= courseId %>">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Add a Page
-                </button>
-            </form>
-        </div>
 
     </div>
 
