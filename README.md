@@ -31,5 +31,13 @@ This project is a Learning Management System (LMS) designed to facilitate online
 5. Start the server using npm start.
 6. Access the application in your browser at http://localhost:4000.
 
+# Peek into the website
+![SignIn page](https://github.com/kartik-teja/LMS/assets/139695518/07ef39b7-7274-40e7-9c00-34e5c9abed7e)
+![tutor login page](https://github.com/kartik-teja/LMS/assets/139695518/00e5da97-3ebf-403c-808c-2b27c6c99ae1)
+![View Enrolled Courses](https://github.com/kartik-teja/LMS/assets/139695518/c116bab9-4150-4202-95c6-36575e12bb49)
+![View Chapter Contents](https://github.com/kartik-teja/LMS/assets/139695518/4784c947-2cf7-4ef0-83b7-b37d67624293)
+![Design a Page for the Chapter](https://github.com/kartik-teja/LMS/assets/139695518/fa286fbb-2bee-40d6-9e44-c5f8331d6917)
+
+
 # Contributors
 kartik teja
