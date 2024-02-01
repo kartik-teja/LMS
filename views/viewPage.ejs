@@ -8,23 +8,31 @@
         <%= head %>
     </title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional styles */
+        .tick-icon {
+            fill: #2ecc71;
+            /* Change the tick mark color */
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">
-    <header class="bg-blue-500 py-4">
+    <header class="bg-red-500 py-4">
         <div class="container mx-auto">
             <h1 class="text-white text-3xl text-center">
                 <%= head %>
-                    <% if (completed) { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2 text-green-500" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M19.707 2.293a1 1 0 00-1.414 0l-9 9a1 1 0 01-1.414 0l-4-4a1 1 0 00-1.414 1.414l4.293 4.293a1 1 0 001.414 0l9-9a1 1 0 000-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <% } %>
+                    <div>
+                        <% if (completed) { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2 tick-icon" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M19.707 2.293a1 1 0 00-1.414 0l-9 9a1 1 0 01-1.414 0l-4-4a1 1 0 00-1.414 1.414l4.293 4.293a1 1 0 001.414 0l9-9a1 1 0 000-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <% } %>
+                    </div>
             </h1>
-
         </div>
     </header>
 
@@ -37,7 +45,10 @@
             <input type="hidden" name="pageHead" value="<%= head %>">
             <input type="hidden" name="pageBody" value="<%= body %>">
             <input type="hidden" name="complete" value="true">
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">
+            <input type="hidden" name="chapter" value="<%= chapter %>">
+            <input type="hidden" name="courseId" value="<%= courseId %>">
+            <button type="submit"
+                class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
                 Mark as Completed
             </button>
         </form>

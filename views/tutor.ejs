@@ -56,6 +56,12 @@
 
             <div>
                 <h2 class="text-xl text-gray-900 font-semibold mb-4">Available Courses</h2>
+                <div>
+                    <form action="/search" method="get">
+                        <input type="text" name="search" placeholder="search">
+                        <button>Search</button>
+                    </form>
+                </div>
                 <div class="grid grid-cols-1 gap-6">
                     <% if (courses && courses.length> 0) { %>
                         <% courses.forEach(course=> { %>

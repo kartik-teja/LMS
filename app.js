@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const app = express();
 const path = require('path');
+const Sequelize = require('sequelize');
 const bodyParser = require('body-parser');
 const {Users, Courses, Chapters} = require('./models/');
 const users = require('./models/users');
@@ -91,6 +92,37 @@ app.get('/tutor', async (req, res) => {
     res.render('tutor', {courses: null, tutoremail});
   }
 });
+
+app.get('/search', async (req, res) => {
+  try {
+    console.log(req.body);
+    const mail = req.session.email;
+    const user = await Users.findOne({where: {email: mail}});
+    console.log(mail);
+    const searchQuery = req.query.search.trim();
+    const courses = await Courses.findAll({
+      where: {
+        name: {[Sequelize.Op.like]: '%' + searchQuery + '%'},
+      },
+    });
+    console.log(user);
+    if (user) {
+      if (user.role === 'tutor') {
+        res.render('tutor', {courses, tutoremail: mail});
+      } else if (user.role === 'user') {
+        res.render('user', {courses, mail});
+      } else {
+        res.status(404).send('Invalid role');
+      }
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.get('/user', async (req, res) => {
   console.log(req.session);
@@ -374,7 +406,8 @@ app.get('/viewPage', (req, res)=>{
   const courseId = req.query.courseId;
 
   res.render('viewPage',
-      {head: pageHead, body: pageBody, completed: pageCompleted});
+      {head: pageHead, body: pageBody,
+        completed: pageCompleted, chapter, courseId});
 });
 
 app.get('/viewCourseU', async (req, res)=>{
@@ -460,11 +493,33 @@ app.get('/viewChapterU', async (req, res)=>{
 
 app.post('/updatePage', async (req, res)=>{
   console.log(req.body);
-  console.log(req.session);
-  console.log(req.query);
+  const chapterName = req.body.chapter;
+  const courseId = req.body.courseId.trim();
+  const chapter = await Chapters.findOne(
+      {where: {title: chapterName, courseId: courseId}});
+  console.log(chapter);
+  const indexToRemove = chapter.pages.findIndex((page) =>
+    page.head === req.body.pageHead.trim() &&
+    page.body === req.body.pageBody &&
+    page.completed === false,
+  );
 
-  chapters.findOne(
-      {where: {pages: req.body}});
+  if (indexToRemove !== -1) {
+    chapter.pages.splice(indexToRemove, 1);
+  }
+
+
+  chapter.pages.push({
+    head: req.body.pageHead.trim(),
+    body: req.body.pageBody,
+    completed: req.body.complete,
+  });
+
+  await chapter.save();
+
+  res.redirect(`/viewPage/?courseId=${courseId}
+      &chapter=${chapterName}&head=${req.body.pageHead}
+            &body=${req.body.pageBody}&completed=${req.body.complete}`);
 });
 
 app.post('/enrollCourse', async (req, res) => {
