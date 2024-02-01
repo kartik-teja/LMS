@@ -367,10 +367,12 @@ app.post('/designPage', async (req, res) => {
 
 app.get('/viewPage', (req, res)=>{
   console.log(req.query);
-  console.log(req.body);
   const pageHead = req.query.head;
   const pageBody = req.query.body;
   const pageCompleted = req.query.completed;
+  const chapter = req.query.chapter;
+  const courseId = req.query.courseId;
+
   res.render('viewPage',
       {head: pageHead, body: pageBody, completed: pageCompleted});
 });
