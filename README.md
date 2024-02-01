@@ -1,2 +1,35 @@
 # LMS
 Learning Management System
+
+# Overview
+This project is a Learning Management System (LMS) designed to facilitate online learning and teaching. It allows users to sign up, log in, create courses, enroll in courses, view course content, and interact with course materials.
+
+# Features
+- User Authentication: Users can sign up and log in with their email and password. Passwords are securely hashed.
+- Role-based Access: Users can have different roles, including 'tutor' and 'user'. Each role has access to different functionalities.
+- Course Management: Tutors can create courses, add chapters to courses, and manage course content.
+- Enrollment: Users can enroll in courses created by tutors.
+- Viewing Course Content: Users can view chapters and pages within courses they are enrolled in.
+- Session Management: User sessions are managed using Express session middleware.
+- Password Change: Users can change their passwords securely.
+
+# Technologies Used
+- Node.js: The server-side environment for running JavaScript code.
+- Express.js: Web application framework for Node.js used to build the server-side logic.
+- Sequelize: ORM (Object-Relational Mapping) for interacting with the database.
+- Express-session: Middleware for managing user sessions.
+- Body-parser: Middleware for parsing incoming request bodies.
+- EJS: Embedded JavaScript templates for server-side rendering.
+- SQLite: Lightweight SQL database used for data storage.
+- HTML/CSS/JavaScript: Frontend technologies for building user interfaces and interactivity.
+
+# How to Run
+1. Clone this repository to your local machine.
+2. Navigate to the project directory.
+3. Install dependencies using npm install.
+4. Make sure you have Node.js and npm installed on your machine.
+5. Start the server using npm start.
+6. Access the application in your browser at http://localhost:4000.
+
+# Contributors
+kartik teja
