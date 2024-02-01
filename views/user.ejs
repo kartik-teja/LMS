@@ -2,12 +2,9 @@
 <html lang="en">
 
 <head>
-    <title>
-        Next Move
-    </title>
+    <title>Next Move</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/looks/output.css" rel="stylesheet">
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -16,11 +13,11 @@
     <h1 class="text-3xl font-semibold mb-4">Welcome</h1>
     <p class="text-lg mb-4">The following courses are available. Pick what you would like to learn today!</p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div>
         <% if (courses && courses.length> 0) { %>
             <% courses.forEach(course=> { %>
-                <div
-                    class="bg-white p-6 rounded-lg shadow-md cursor-pointer transition duration-300 ease-in-out transform hover:scale-105">
+                <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer transition duration-300 ease-in-out transform hover:scale-105 mb-4"
+                    onclick="window.location.href='/viewCourseU?courseName=<%= encodeURIComponent(course.name) %>&courseId=<%= course.id %>'">
                     <h2 class="text-xl text-gray-900 font-semibold mb-2">
                         <%= course.name %>
                     </h2>

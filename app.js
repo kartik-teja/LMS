@@ -359,12 +359,18 @@ app.get('/viewCourseU', async (req, res)=>{
   console.log(req.body);
   console.log(req.session);
   console.log(req.query);
+  const useremail = req.session.email;
   const {courseName, courseId} = req.query;
   const course = await Courses.findOne({where: {id: courseId}});
+  const firstName = await Users.findOne({where: {email: course.email}});
+  const user = await Users.findOne({where: {email: useremail}});
+  const userIsEnrolled = user.enrolled.includes(courseId);
 
   res.render('viewCourseU',
-      {courseName, courseId, course, chapters: course.chapters});
+      {courseName, courseId, course, chapters: course.chapters,
+        firstName: firstName.firstName, userIsEnrolled});
 });
+
 app.get('/viewChapterU', async (req, res)=>{
   try {
     const chapterName = req.query.chapterName;
@@ -395,5 +401,13 @@ app.get('/viewChapterU', async (req, res)=>{
     console.error('Error fetching course and chapters:', error);
     res.status(500).send('Internal Server Error: ' + error.message);
   }
+});
+
+app.post('/updatePage', async (req, res)=>{
+  console.log(req.body);
+  console.log(req.session);
+
+  chapters.findOne(
+      {where: {pages: req.body}});
 });
 module.exports = app;

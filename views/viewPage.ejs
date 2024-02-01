@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <%=head%>
-
+        <%= head %>
     </title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -15,18 +14,32 @@
     <header class="bg-blue-500 py-4">
         <div class="container mx-auto">
             <h1 class="text-white text-3xl text-center">
-                <%=head%>
+                <%= head %>
             </h1>
         </div>
     </header>
 
     <main class="container mx-auto py-8">
         <div class="prose">
-            <%=body.replace( /<[^>]*>/g, '')%>
+            <%= body.replace(/<[^>]*>/g, '') %>
         </div>
+
+        <!-- Form to update page.completed -->
+        <form action="/updatePage" method="post" class="flex items-center mt-4">
+            <input type="hidden" name="pageHead" value="<%= head %>">
+            <input type="hidden" name="pageBody" value="<%= body %>">
+            <input type="hidden" name="completed" value="true">
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">
+                Mark as Completed
+            </button>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2 text-green-500" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M19.707 2.293a1 1 0 00-1.414 0l-9 9a1 1 0 01-1.414 0l-4-4a1 1 0 00-1.414 1.414l4.293 4.293a1 1 0 001.414 0l9-9a1 1 0 000-1.414z"
+                    clip-rule="evenodd" />
+            </svg>
+        </form>
     </main>
-
-
 </body>
 
 </html>
