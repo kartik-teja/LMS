@@ -327,14 +327,18 @@ app.get('/report', async (req, res) => {
         email: tutoremail,
       },
     });
+    console.log(courses);
 
     const courseNames = courses.map((course) => course.dataValues.name);
+    const chapterCount = courses.map(
+        (course) => course.dataValues.chapters.length);
     const registeredUsersCounts = courses.map(
         (course) => course.dataValues.registeredUsersCount,
     );
     res.render('report', {
       courseNames: courseNames,
       registeredUsersCounts: registeredUsersCounts,
+      chapters: chapterCount,
     });
   } catch (error) {
     console.error('Error fetching courses:', error);
