@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Course Chapters</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Link to Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="bg-white font-sans">
@@ -20,21 +22,28 @@
         <ul id="chapterList" class="space-y-4">
             <% if (chapters && chapters.length> 0) { %>
                 <% chapters.forEach(chapter=> { %>
-                    <li class="cursor-pointer border-b border-gray-200 py-2 transition-colors hover:bg-gray-100"
-                        onclick="window.location.href='/viewChapterU?chapterName=<%= chapter %>&courseId=<%= courseId %>';">
-                        <h2 class="text-xl font-semibold text-gray-900">
-                            <%= chapter %>
-                        </h2>
+                    <li class="cursor-pointer border-b border-gray-200 py-2 transition-colors hover:bg-gray-100" <% if
+                        (!userIsEnrolled) { %>
+                        <span class="mr-2"><i class="fas fa-lock"></i></span>
+                        <% } else { %>
+                            onclick="window.location.href='/viewChapterU?chapterName=<%= chapter %>&courseId=<%=
+                                    courseId %>';"
+                                    <% } %>
+                                        >
+                                        <h2 class="text-xl font-semibold text-gray-900">
+                                            <%= chapter %>
+                                        </h2>
                     </li>
                     <% }); %>
                         <% } else { %>
                             <p class="text-gray-500">No Chapters available</p>
                             <% } %>
+
         </ul>
         <div class="border border-gray-200 rounded-md p-4">
             <h2 class="text-lg font-semibold mb-2">Register for <%= course.name %>
             </h2>
-            <p class="mb-4">First Name: <%= course.firstName %>
+            <p class="mb-4">First Name: <%=firstName %>
             </p>
             <p class="mb-2">Registered Users: <%= course.registeredUsersCount %>
             </p>
@@ -49,6 +58,8 @@
                     <% } %>
 
         </div>
+
+    </div>
 
 </body>
 

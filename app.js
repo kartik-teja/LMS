@@ -250,6 +250,25 @@ app.post('/designChapter', async (req, res) => {
   }
 });
 
+app.get('/enrolled', async (req, res)=>{
+  const email = req.session.email;
+  const user = await Users.findOne({where: {email: email}});
+
+  if (user) {
+    const enrolledCourses = [];
+    for (const courseId of user.enrolled) {
+      const course = await Courses.findOne({where: {id: courseId}});
+      enrolledCourses.push(course);
+    }
+    console.log(enrolledCourses);
+
+    res.render('enrolled', {courses: enrolledCourses});
+  } else {
+    console.error('Error fetching tutor\'s courses:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/mycourses', async (req, res) => {
   try {
     const tutoremail = req.session.email;
@@ -348,6 +367,7 @@ app.post('/designPage', async (req, res) => {
 
 app.get('/viewPage', (req, res)=>{
   console.log(req.query);
+  console.log(req.body);
   const pageHead = req.query.head;
   const pageBody = req.query.body;
   const pageCompleted = req.query.completed;
@@ -372,6 +392,36 @@ app.get('/viewCourseU', async (req, res)=>{
   res.render('viewCourseU',
       {courseName, courseId, course, chapters: course.chapters,
         firstName: firstName.firstName, userIsEnrolled});
+});
+
+
+app.get('/changepassword', (req, res)=>{
+  res.render('changepassword');
+});
+
+
+app.post('/changepassword', async (req, res)=>{
+  const email = req.session.email;
+  const user = await Users.findOne({where: {email: email}});
+  console.log(req.body);
+  if (user.password === req.body.Password) {
+    const updatedUser = user.update({password: req.body.newpassword});
+    console.log(updatedUser);
+  } else {
+    res.redirect('/changepassword');
+  }
+  if (user) {
+    req.session.email = req.body.email;
+    if (user.role === 'tutor') {
+      res.redirect('/tutor');
+    } else {
+      if (user.role === 'user') {
+        res.redirect('/user');
+      } else {
+        res.status(404).send('Invalid role');
+      }
+    }
+  }
 });
 
 app.get('/viewChapterU', async (req, res)=>{
@@ -409,6 +459,7 @@ app.get('/viewChapterU', async (req, res)=>{
 app.post('/updatePage', async (req, res)=>{
   console.log(req.body);
   console.log(req.session);
+  console.log(req.query);
 
   chapters.findOne(
       {where: {pages: req.body}});
@@ -421,10 +472,12 @@ app.post('/enrollCourse', async (req, res) => {
     const email = req.session.email;
     const user = await Users.findOne({where: {email: email}});
     console.log(user);
+    const updatecourse = await course.update(
+        {registeredUsersCount: course.registeredUsersCount+1});
     const updateduser = await user.update({
       enrolled: [...user.enrolled, courseId],
     });
-    console.log(updateduser);
+    console.log(updateduser, updatecourse);
     res.redirect(
         `/viewCourseU?courseName=${course.name}&courseId=${course.id}`);
   } catch (error) {

@@ -38,11 +38,19 @@
                     <button class="mb-2 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">My
                         Courses</button>
                 </form>
-
+                <form action="/enrolled" method="get">
+                    <button
+                        class="mb-2 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Enrolled
+                        Courses</button>
+                </form>
                 <form action="/report" method="get">
                     <input type="hidden" name="author" value="<%= tutoremail %>">
                     <button class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">View
                         Reports</button>
+                </form>
+                <form action="/changepassword" method="get">
+                    <button class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Change
+                        Password</button>
                 </form>
             </div>
 
