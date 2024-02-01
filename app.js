@@ -364,7 +364,10 @@ app.get('/viewCourseU', async (req, res)=>{
   const course = await Courses.findOne({where: {id: courseId}});
   const firstName = await Users.findOne({where: {email: course.email}});
   const user = await Users.findOne({where: {email: useremail}});
-  const userIsEnrolled = user.enrolled.includes(courseId);
+  console.log(user.enrolled, courseId);
+  const enrolled = user.enrolled.map((item) => item.toString()); ;
+  const userIsEnrolled = enrolled.includes(courseId.toString());
+  console.log(userIsEnrolled);
 
   res.render('viewCourseU',
       {courseName, courseId, course, chapters: course.chapters,
@@ -409,5 +412,24 @@ app.post('/updatePage', async (req, res)=>{
 
   chapters.findOne(
       {where: {pages: req.body}});
+});
+
+app.post('/enrollCourse', async (req, res) => {
+  try {
+    const courseId = req.body.courseId;
+    const course = await Courses.findOne({where: {id: courseId}});
+    const email = req.session.email;
+    const user = await Users.findOne({where: {email: email}});
+    console.log(user);
+    const updateduser = await user.update({
+      enrolled: [...user.enrolled, courseId],
+    });
+    console.log(updateduser);
+    res.redirect(
+        `/viewCourseU?courseName=${course.name}&courseId=${course.id}`);
+  } catch (error) {
+    console.error('Error enrolling in the course:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 module.exports = app;

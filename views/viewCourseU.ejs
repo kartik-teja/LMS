@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Course Chapters</title>
-    <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
@@ -40,12 +39,13 @@
             <p class="mb-2">Registered Users: <%= course.registeredUsersCount %>
             </p>
 
-            <% if (userIsEnrolled) { %>
-                <p class="text-green-500 font-semibold">Enrolled</p>
+            <% if (!userIsEnrolled) { %>
+                <form action="/enrollCourse" method="POST">
+                    <input type="hidden" name="courseId" value="<%= course.id %>">
+                    <button type="submit">Enroll</button>
+                </form>
                 <% } else { %>
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-                        Enroll
-                    </button>
+                    <p class="text-success">Enrolled</p>
                     <% } %>
 
         </div>
